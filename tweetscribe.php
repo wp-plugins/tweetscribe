@@ -18,11 +18,14 @@ function tweetscribe_published($postid){
 	$api_key = get_option('tweetscribe_key');
 	
 	$post = get_post($postid);
-	$permalink = get_permalink($postid);
-	$results = file_get_contents('http://api.bit.ly/shorten?version=2.0.1&longUrl='.$permalink.'&login=bitlyapidemo&apiKey=R_0da49e0a9118ff35f52f629d2d71bf07&format=xml');
-	preg_match("/<shortUrl>(.*)<\/shortUrl>/", $results, $matches);
-	$tweet = str_replace("URL", $matches[1], str_replace("TITLE", $post->post_title, $text));
-	$tweet_result = file_get_contents('http://tweetscribe.me/api/action/tweet/?uname='.$username.'&key='.$api_key.'&tweet='.urlencode($tweet));
+	
+	if($post->post_date == $post->post_modified){//only tweet when publish not when updating
+		$permalink = get_permalink($postid);
+		$results = file_get_contents('http://api.bit.ly/shorten?version=2.0.1&longUrl='.$permalink.'&login=bitlyapidemo&apiKey=R_0da49e0a9118ff35f52f629d2d71bf07&format=xml');
+		preg_match("/<shortUrl>(.*)<\/shortUrl>/", $results, $matches);
+		$tweet = str_replace("URL", $matches[1], str_replace("TITLE", $post->post_title, $text));
+		$tweet_result = file_get_contents('http://tweetscribe.me/api/action/tweet/?uname='.$username.'&key='.$api_key.'&tweet='.urlencode($tweet));
+	}
 }
 
 function tweetscribe_install(){
