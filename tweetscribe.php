@@ -5,7 +5,7 @@ Plugin Name: TweetScribe
 Plugin URI: http://tweetscribe.me/downloads/
 Description: Subscripbe to a blog via Twitter
 Author: stratosg
-Version: 1.0
+Version: 1.1
 Author URI: http://www.stratos.me
 */
 
